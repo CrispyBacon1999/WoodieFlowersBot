@@ -20,7 +20,7 @@ class Team():
             'name'         :  data['nickname'],
             'website'      :  data['website'],
             'rookie_year'  :  data['rookie_year'],
-            'motto'        :  data['motto']
+            'motto'        :  data['motto'],
             'events'       :  teamevents
         }
         if self.info['website'] == 'http://www.firstinspires.org/':
