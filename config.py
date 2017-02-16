@@ -1,0 +1,1 @@
+default_help_mess = 'This is the default help message. Message @FloodieWowers and have him fix it for you.'
