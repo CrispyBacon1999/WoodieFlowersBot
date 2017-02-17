@@ -13,7 +13,7 @@ def handle(msg):
     uid = msg['from']['id']
     chat = bot.getChat(chatid)
     if chat['type'] == 'supergroup':
-        print(col.OKBLUE + chat['title'] + col.HEADER + ' - ' + col.OKGREEN + msg['from']['first_name'] + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
+        print(col.OKBLUE + chat['title'] + col.HEADER + ' - ' + col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
     else:
         print(col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
     for plugin in plugins:

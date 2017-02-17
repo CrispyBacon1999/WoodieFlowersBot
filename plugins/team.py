@@ -1,5 +1,6 @@
 from plugins.pluginbase import PluginBase
 from plugins.tba import Team as Tm
+from theblueallianceapi import Team as Tm
 import dbhandler
 import config
 
@@ -32,11 +33,18 @@ class Team(PluginBase):
                 except UnboundLocalError:
                     self.bot.sendMessage(msg['chat']['id'], 'Error: Username or name does not exist in system.', reply_to_message_id=msg['message_id'])
             elif(lookupmethod == 'set'):
-                try:
-                    dbhandler.addUser(msg['from']['id'], text[2])
-                except Exception as err:
-                    pass
-                self.bot.sendMessage('@FRCGlobal', 'You are now listed as a member of team ' + text[2])
+                if isintable(text[2]):
+                    t_team = Tm(text[2], None)
+                    if not t_team.info['name'] == None:
+                        try:
+                            dbhandler.addUser(msg['from']['id'], text[2])
+                        except Exception as err:
+                            pass
+                        self.bot.sendMessage(msg['chat']['id'], 'You are now listed as a member of team ' + text[2])
+                    else:
+                        self.bot.sendMessage(msg['chat']['id'], 'Not a valid team.')
+                else:
+                    self.bot.sendMessage(msg['chat']['id'], 'Not a valid team.')
             elif(lookupmethod == 'list'):
                 txt = "Members of %s in this chat: \n"%(text[2])
                 members = dbhandler.getmembersfrom(text[2])
@@ -55,3 +63,12 @@ class Team(PluginBase):
                 self.bot.sendMessage(msg['chat']['id'], "Correct syntax:\n/team set|get|list XXXX")
         else:
             self.bot.sendMessage(msg['chat']['id'], "Correct syntax:\n/team set|get|list XXXX")
+            
+            
+
+def isintable(value):
+  try:
+    int(value)
+    return True
+  except:
+    return False
