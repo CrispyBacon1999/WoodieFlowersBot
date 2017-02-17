@@ -1,5 +1,15 @@
 import config
 
+
+
+prefixes = [
+    '@FRCGlobalBot, ',
+    'woodie, ',
+    'woodie ',
+    'hey woodie ',
+    'hey woodie, '
+]
+
 class PluginBase:
     def __init__(self, bot):
         self.bot = bot
@@ -7,7 +17,7 @@ class PluginBase:
         self.command_level = 0
         self.help_mess = config.default_help_mess
     
-    def execute(self, msg):
+    def execute(self, msg, natlang=False):
         pass
     
     def help_message(self, msg):
@@ -22,7 +32,8 @@ class PluginBase:
                 
     def test_help(self, msg):
         txt = msg['text']
-        if txt == '/help ' + self.command:
+        if txt == '/halp ' + self.command:
             self.help_message(msg)
-        if txt == '/help@FRCGlobalAdminBot ' + self.command:
+        if txt == '/halp@FRCGlobalAdminBot ' + self.command:
             self.help_message(msg)
+            
