@@ -107,3 +107,17 @@ def getdistinctteams():
     teams = c.fetchall()
     print(teams)
     return teams
+    
+def addxp(uid, xp):
+    con = sqlite3.connect('woodieV2.0/frcgloba.db')
+    c = con.cursor()
+    c.execute('SELECT uid FROM userxp WHERE uid = ?', (uid,))
+    if(c.fetchone() is None):
+        c.execute('INSERT INTO userxp VALUES (?, ?)', (uid, xp))
+    else:
+        c.execute('SELECT xp FROM userxp WHERE uid = ?', (uid,))
+        uxp = c.fetchone()
+        # Add xp to current xp
+        c.execute('UPDATE userxp SET xp = ? WHERE uid = ?', (uxp + xp, uid))
+    con.commit()
+    

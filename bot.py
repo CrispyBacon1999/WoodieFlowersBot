@@ -1,6 +1,6 @@
 import telepot
 import time
-from plugins import team,tba,meetup,scouting
+from plugins import team,tba,meetup,scouting,configure,rank
 import sys
 from utils import bcolors as col
 
@@ -12,12 +12,16 @@ def handle(msg):
     textfull = msg['text']
     uid = msg['from']['id']
     chat = bot.getChat(chatid)
+    if(int(uid) == 248754302):
+        user_level = 1
+    else:
+        user_level = 0
     if chat['type'] == 'supergroup':
         print(col.OKBLUE + chat['title'] + col.HEADER + ' - ' + col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
     else:
         print(col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
     for plugin in plugins:
-        plugin.test_command(0,msg)
+        plugin.test_command(user_level,msg)
 # Handle Inline Buttons
 def on_callback_query(msg):
     pass
@@ -46,6 +50,8 @@ plugins.append(tba.Tba(bot))
 plugins.append(meetup.Meetups(bot))
 plugins.append(scouting.Scouting(bot))
 plugins.append(scouting.ScoutAdmin(bot))
+plugins.append(configure.Configure(bot))
+plugins.append(configure.Rank(bot))
 print(col.HEADER + 'Plugins Initialized. Waiting for messages...')
 while 1:
     time.sleep(5)

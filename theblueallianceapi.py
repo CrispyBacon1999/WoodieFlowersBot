@@ -1,5 +1,6 @@
 import requests
 import json
+import datetime
 
 # EX: woodie_flowers:match_scraper:5
 tbakey = 'frc-global:chatbot:2.0'
@@ -8,8 +9,12 @@ tbakey = 'frc-global:chatbot:2.0'
 _TBA_URL_BASE = 'https://www.thebluealliance.com/api/v2/%s/%s?X-TBA-App-Id=%s'
 # Team Requests
 class Team():
-    def __init__(self, num):
+    def __init__(self, num, year):
         self.teamnumber = num
+        if not year:
+            self.year = datetime.date.today().year
+        else:
+            self.year = year
         data = self._retrieve_team_data()
         teamevents = '*Event List for %s*\n' % data['nickname']
         for event in self._retrieve_team_events():
