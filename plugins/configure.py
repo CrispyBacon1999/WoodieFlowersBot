@@ -8,7 +8,6 @@ class Configure(PluginBase):
         self.command = 'config'
         self.command_level = 1
         self.help_mess = config.default_help_mess
-        print('Initialized Config')
     
     def execute(self, msg):
         print('Config')

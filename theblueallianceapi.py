@@ -9,8 +9,9 @@ tbakey = 'frc-global:chatbot:2.0'
 _TBA_URL_BASE = 'https://www.thebluealliance.com/api/v2/%s/%s?X-TBA-App-Id=%s'
 # Team Requests
 class Team():
-    def __init__(self, num, year):
+    def __init__(self, num, year=None):
         self.teamnumber = num
+        # If year isn't input, set it to current year
         if not year:
             self.year = datetime.date.today().year
         else:

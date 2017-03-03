@@ -13,9 +13,9 @@ class Tba(PluginBase):
         if len(text) >= 4:
             if text[1] == 'team':
                 if len(text) < 5:
-                    team = Team(text[3], None)
+                    team = Team(text[3])
                 else:
-                    team = Team(text[3], text[4])
+                    team = Team(text[3], year=text[4])
                 if(text[2] == 'info'):
                     info = '*Information for Team %s:*\n\n*Name:* _%s_\n*Location:* _%s_\n*Motto:* _%s_\n*Website:* _%s_\n*Rookie Year:* _%s_' % (text[3], team.info['name'],team.info['location'],team.info['motto'],team.info['website'],team.info['rookie_year'])
                     self.bot.sendMessage(msg['chat']['id'], info, parse_mode='Markdown', disable_web_page_preview=True)

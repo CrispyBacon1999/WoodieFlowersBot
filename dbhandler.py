@@ -1,7 +1,9 @@
 import sqlite3
 
+dblink = 'woodieV2.0/frcglobal.db'
+
 def addUser(uid, team):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     inDb = checkifindb(uid)
     if not inDb:
@@ -14,7 +16,7 @@ def addUser(uid, team):
         con.commit()
     
 def checkifindb(uid):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT uid FROM memberteams WHERE uid = ?', (uid,))
     data = c.fetchall()
@@ -24,7 +26,7 @@ def checkifindb(uid):
         return False
 
 def getmembersfrom(team):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     print(team)
     c.execute('SELECT uid FROM memberteams WHERE team = ?', (str(team),))
@@ -32,20 +34,20 @@ def getmembersfrom(team):
     return members
     
 def warn(uid, reason):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     #print '\033[91mWARNING FOR \033[94m' + reason + ' \033[91mAPPLIED TO \033[95m' + str(uid)
     c.execute('INSERT INTO warns VALUES (?, ?)', (uid, str(reason)))
     con.commit()
 def getwarns():
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT telegramid FROM warns')
     uids = c.fetchall()
     return uids
     
 def refreshuid(username, uid):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT username FROM usernames WHERE username = ? AND uid = ?', (username,uid))
     uname = c.fetchone()
@@ -58,7 +60,7 @@ def refreshuid(username, uid):
     con.commit()
 
 def getuid(username):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT uid FROM usernames WHERE username = ?', (username,))
     uid = c.fetchone()
@@ -66,7 +68,7 @@ def getuid(username):
     return uid
 
 def getusername(uid):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT username FROM usernames WHERE uid = ?', (uid,))
     uname = c.fetchone()
@@ -74,7 +76,7 @@ def getusername(uid):
     return uname
 
 def getmemberteam(uid):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT team FROM memberteams WHERE uid = ?', (str(uid),))
     team = c.fetchone()
@@ -82,7 +84,7 @@ def getmemberteam(uid):
     return team
 
 def addrank(uid, rank):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     #Remove old rank
     c.execute('DELETE FROM ranks WHERE uid = ?', (uid, ))
@@ -91,7 +93,7 @@ def addrank(uid, rank):
     con.commit()
 
 def getrank(uid):
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT rank FROM ranks WHERE uid = ?', (uid, ))
     rank = c.fetchone()
@@ -101,7 +103,7 @@ def getrank(uid):
         return rank
         
 def getdistinctteams():
-    con = sqlite3.connect('woodieV2.0/frcglobal.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT DISTINCT team FROM memberteams')
     teams = c.fetchall()
@@ -109,7 +111,7 @@ def getdistinctteams():
     return teams
     
 def addxp(uid, xp):
-    con = sqlite3.connect('woodieV2.0/frcgloba.db')
+    con = sqlite3.connect(dblink)
     c = con.cursor()
     c.execute('SELECT uid FROM userxp WHERE uid = ?', (uid,))
     if(c.fetchone() is None):
