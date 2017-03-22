@@ -4,12 +4,12 @@ This is a bot created for the telegram group [@FRCGlobal](https://t.me/FRCGlobal
 
 ## Plugins
 
-#### Tba
+### Tba
 
 References [The Blue Alliance](https://thebluealliance.com)'s [API](https://www.thebluealliance.com/apidocs) to give information on teams, events, districts, or matches.
 
 
-##### Team Information
+#### Team Information
 All information from teams can be retrieved using the prefix `/tba team` and has an optional suffix for the year. Defaults to current year.
 * `/tba team info 254`: A clean list of most team information.
 * `/tba team name 254`: The current name of the team.
@@ -22,7 +22,7 @@ All information from teams can be retrieved using the prefix `/tba team` and has
 * `/tba team pics 254`: Team pictures uploaded to [The Blue Alliance](https://thebluealliance.com)
 * `/tba team vids 254`: Team videos uploaded to [The Blue Alliance](https://thebluealliance.com)
 
-##### Event Information
+#### Event Information
 All information about events can be retrieved using the prefix `/tba event`, requires the year suffix. Events should be retrieved using the event key without the year.
 * `/tba event name cmpmo 2017`: The name of the event.
 * `/tba event location cmpmo 2017`: The city the event takes place in.
@@ -32,7 +32,7 @@ All information about events can be retrieved using the prefix `/tba event`, req
 * `/tba event stream cmpmo 2017`: A list of livestreams.
 * `/tba event key cmpmo 2017`: The full event key.
 
-##### Match Information
+#### Match Information
 Still a work in progress. Uses regular expressions to make match selection easier.
 `/tba match cmpmo qf1m1`: Shows information from Quarterfinal 1 Match 1
 
@@ -47,22 +47,22 @@ Example Match Keys:
 * Quarterfinal 1 Match 2
 * Quarterfs 4 M 3 
 ```
-##### District Information
+#### District Information
 Still a work in progress. Use `/tba district fim 2017` for a list of all events within that district.
 
-#### Team
+### Team
 A feature specific to the [@FRCGlobal](https://t.me/FRCGlobal) chat. Allows for users in the chat to get quick information about users' teams.
 * `/team set 254`: Sets the user's team number to whatever is input.
 * `/team get @czvni`: Returns the team number that the user set prior.
 * `/team list 254`: Lists all users on a specific team.
 
-#### Meetup
+### Meetup
 Compiles a list of all teams that are attending one or more of the same event as another. Currently shows each team twice, so the first column of teams will have your team if you share an event.
 Simply run `/meetup`
 
 ## Admin Features
 
-#### Warn
+### Warn
 Gives the replied to user X amounts of warnings. Only usable by group admins.
 If the user reaches the set amount of warnings (default 3), they will be kicked.
 Usage: `/warn X reason` or `/warn reason`.
@@ -71,7 +71,7 @@ Usage: `/warn X reason` or `/warn reason`.
 Instantly kicks the replied to user. They will be able to instantly rejoin with the group link.
 Usage: `/kick reason`
 
-#### Ban
+### Ban
 Instantly bans the replied to user. They will be unable to rejoin until unbanned by an administrator.
 Usage: `/ban reason`
 ___
