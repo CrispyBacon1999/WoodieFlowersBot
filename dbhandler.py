@@ -33,18 +33,25 @@ def getmembersfrom(team):
     members = c.fetchall()
     return members
     
-def warn(uid, reason):
+def warn(uid, num):
     con = sqlite3.connect(dblink)
     c = con.cursor()
-    #print '\033[91mWARNING FOR \033[94m' + reason + ' \033[91mAPPLIED TO \033[95m' + str(uid)
-    c.execute('INSERT INTO warns VALUES (?, ?)', (uid, str(reason)))
+    c.execute('SELECT uid FROM warns WHERE uid = ?', (uid,))
+    if c.fetchall:
+       c.execute('DELETE FROM warns WHERE uid = ?', (uid,))
+    c.execute('INSERT INTO warns VALUES (?, ?)', (uid, num))
     con.commit()
-def getwarns():
+def getwarns(uid):
     con = sqlite3.connect(dblink)
     c = con.cursor()
-    c.execute('SELECT telegramid FROM warns')
-    uids = c.fetchall()
-    return uids
+    c.execute('SELECT num FROM warns WHERE uid = ?', (uid,))
+    warns = c.fetchall()
+    print(warns)
+    if warns == []:
+        warns = 0
+    else:
+        warns = warns[0][0]
+    return warns
     
 def refreshuid(username, uid):
     con = sqlite3.connect(dblink)
@@ -78,7 +85,7 @@ def getusername(uid):
 def getmemberteam(uid):
     con = sqlite3.connect(dblink)
     c = con.cursor()
-    c.execute('SELECT team FROM memberteams WHERE uid = ?', (str(uid),))
+    c.execute('SELECT team FROM memberteams WHERE uid = ?', (uid,))
     team = c.fetchone()
     con.commit()
     return team
@@ -123,3 +130,9 @@ def addxp(uid, xp):
         c.execute('UPDATE userxp SET xp = ? WHERE uid = ?', (uxp + xp, uid))
     con.commit()
     
+def addrequest(uid, request):
+    con = sqlite3.connect(dblink)
+    c = con.cursor()
+    print(request)
+    c.execute('INSERT INTO requests VALUES (?, ?)', (uid, str(request)))
+    con.commit()

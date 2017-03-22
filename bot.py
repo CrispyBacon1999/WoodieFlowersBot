@@ -1,16 +1,18 @@
 import telepot
 from telepot.namedtuple import InputTextMessageContent as ITMC
 import time
-from plugins import team,tba,meetup,scouting,configure,rank
+from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request
 from theblueallianceapi import Team as tm
+import theblueallianceapi
 import sys
 from utils import bcolors as col
 import dbhandler
-
-
+import config
+import json
 # Handle Messages
 def handle(msg):
     content_type = telepot.glance(msg, long=True)
+    valid_sticker = False
     chatid = msg['chat']['id']
     if(content_type[0] == 'text'): 
         textfull = msg['text']
@@ -18,8 +20,9 @@ def handle(msg):
         print(msg['sticker']['file_id'])
     uid = msg['from']['id']
     chat = bot.getChat(chatid)
-    dbhandler.refreshuid(msg['from']['username'],uid)
-    if(int(uid) == 248754302):
+    if(msg['from']['username']):
+        dbhandler.refreshuid(msg['from']['username'],uid)
+    if(int(uid) == 209854694):
         user_level = 1
     else:
         user_level = 0
@@ -31,6 +34,7 @@ def handle(msg):
         if textfull == '/halp' or textfull == '/halp@FRCGlobalAdminBot':
             bot.sendMessage(chat, '```Try using /halp <plugin> instead!```', parse_mode = 'Markdown')
     elif content_type[0] == 'sticker':
+        valid_sticker = False
         try:
             sticker_team = list(stickers.keys())[list(stickers.values()).index(msg['sticker']['file_id'])]
             teamtext = '/tba team info %s'%(sticker_team)
@@ -41,7 +45,7 @@ def handle(msg):
                 'date': msg['date'],
                 'text': teamtext
             }
-            content_type[0] == 'text'
+            valid_sticker = True
         except ValueError:
             msg = {
             'from': msg['from'],
@@ -54,7 +58,7 @@ def handle(msg):
             print(col.OKBLUE + chat['title'] + col.HEADER + ' - ' + col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + 'STICKER - ' + msg['text'] + col.ENDC)
         else:
             print(col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + 'STICKER - ' + msg['text']  + col.ENDC)
-    if content_type[0] == 'text':
+    if content_type[0] == 'text' or valid_sticker:
         for plugin in plugins:
             plugin.test_command(user_level,msg)
 # Handle Inline Buttons
@@ -98,6 +102,10 @@ bot.message_loop({'chat': handle,
 print(col.HEADER + 'Initializing plugins...' + col.ENDC)
 # Empty Plugins List
 plugins = []
+
+
+
+
 # Add Plugins to list
 plugins.append(team.Team(bot))
 plugins.append(tba.Tba(bot))
@@ -106,6 +114,12 @@ plugins.append(scouting.Scouting(bot))
 plugins.append(scouting.ScoutAdmin(bot))
 plugins.append(configure.Configure(bot))
 plugins.append(rank.Rank(bot))
+plugins.append(warn.Warn(bot))
+plugins.append(kick.Kick(bot))
+plugins.append(request.Request(bot))
+
+
+
 print(col.HEADER + 'Plugins Initialized. Waiting for messages...' + col.ENDC)
 
 stickers = {
@@ -123,5 +137,6 @@ stickers = {
     "2337": "CAADAQADXAAD5iCCDAhXdj4tPRTrAg"
     
 }
+
 while 1:
     time.sleep(5)

@@ -10,7 +10,7 @@ class Meetups(PluginBase):
         self.bot = bot
         self.command = 'meetup'
         self.command_level = 0
-        self.help_mess = config.default_help_mess
+        self.help_mess = config.meetup_help_mess
     
     def execute(self, msg):
         teams = dbhandler.getdistinctteams()

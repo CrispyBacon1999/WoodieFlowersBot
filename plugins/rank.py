@@ -6,7 +6,7 @@ class Rank(PluginBase):
         self.bot = bot
         self.command = 'rank'
         self.command_level = 0
-        self.help_mess = config.default_help_mess
+        self.help_mess = config.rank_help_mess
     
     def execute(self, msg):
         pass

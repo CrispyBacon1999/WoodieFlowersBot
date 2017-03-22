@@ -25,7 +25,7 @@ class PluginBase:
     
     def test_command(self, user_level, msg):
         txt = msg['text'].split()[0]
-        if txt == '/' + self.command or txt == '/' + self.command + '@FRCGlobalAdminBot':
+        if txt == '/' + self.command or txt == '/' + self.command + config.bot_username:
             if user_level >= self.command_level:
                 self.execute(msg)
         self.test_help(msg)
@@ -34,6 +34,7 @@ class PluginBase:
         txt = msg['text']
         if txt == '/halp ' + self.command:
             self.help_message(msg)
-        if txt == '/halp@FRCGlobalAdminBot ' + self.command:
+        if txt == '/halp'+ config.bot_username +' ' + self.command:
             self.help_message(msg)
+        
             

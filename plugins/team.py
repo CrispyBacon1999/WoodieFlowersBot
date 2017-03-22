@@ -9,7 +9,7 @@ class Team(PluginBase):
         self.bot = bot
         self.command = 'team'
         self.command_level = 0
-        self.help_mess = '*Help for team commands*\n/team name|motto|location|region|set|website|list XXXX'
+        self.help_mess = config.team_help_mess
         
     def execute(self, msg):
         text = msg['text']
@@ -17,17 +17,21 @@ class Team(PluginBase):
         print(text)
         if len(text) > 1:
             lookupmethod = str(text[1])
-            if len(text) > 2:
+            if len(text) >= 2:
                 if text[2].isdigit():
                     team = Tm(str(text[2]), None)
                 else:
-                    searchuid = dbhandler.getuid(str(text[2]))
+                    if(str(text[2][0]) == '@'):
+                        uname = str(text[2][1:])
+                    searchuid = dbhandler.getuid(uname)
+                    print(searchuid[0])
                     try:
-                        tm = dbhandler.getmemberteam(str(searchuid[0]))
+                        tm = dbhandler.getmemberteam(searchuid[0])
                         print(tm)
                     except TypeError:
                         pass
             if(lookupmethod == 'get'):
+                print(tm)
                 try:
                     self.bot.sendMessage(msg['chat']['id'], str(tm[0]), reply_to_message_id=msg['message_id'])
                 except UnboundLocalError:
