@@ -1,5 +1,5 @@
 # Woodie Flowers Bot
-This is a bot created for the telegram group [@FRCGlobal](https://t.me/FRCGlobal). It has commands that are used to access [The Blue Alliance](https://thebluealliance.com) so users can quickly share information with others. The bot can be accessed at [@FRCGlonalAdmimbot](t.me/FRCGlobalAdminBot)
+This is a bot created for the telegram group [@FRCGlobal](https://t.me/FRCGlobal). It has commands that are used to access [The Blue Alliance](https://thebluealliance.com) so users can quickly share information with others. The bot can be accessed at [@FRCGlonalAdminbot](t.me/FRCGlobalAdminBot)
 ## Plugins
 
 ### Tba
