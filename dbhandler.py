@@ -28,7 +28,6 @@ def checkifindb(uid):
 def getmembersfrom(team):
     con = sqlite3.connect(dblink)
     c = con.cursor()
-    print(team)
     c.execute('SELECT uid FROM memberteams WHERE team = ?', (str(team),))
     members = c.fetchall()
     return members
@@ -46,7 +45,6 @@ def getwarns(uid):
     c = con.cursor()
     c.execute('SELECT num FROM warns WHERE uid = ?', (uid,))
     warns = c.fetchall()
-    print(warns)
     if warns == []:
         warns = 0
     else:
@@ -114,7 +112,6 @@ def getdistinctteams():
     c = con.cursor()
     c.execute('SELECT DISTINCT team FROM memberteams')
     teams = c.fetchall()
-    print(teams)
     return teams
     
 def addxp(uid, xp):
@@ -133,6 +130,5 @@ def addxp(uid, xp):
 def addrequest(uid, request):
     con = sqlite3.connect(dblink)
     c = con.cursor()
-    print(request)
     c.execute('INSERT INTO requests VALUES (?, ?)', (uid, str(request)))
     con.commit()
