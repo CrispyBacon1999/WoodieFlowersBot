@@ -14,22 +14,20 @@ class Team(PluginBase):
     def execute(self, msg):
         text = msg['text']
         text = text.split()
-        print(text)
         if len(text) > 1:
             lookupmethod = str(text[1])
             if len(text) >= 2:
-                if text[2].isdigit():
-                    team = Tm(str(text[2]), None)
-                else:
-                    if(str(text[2][0]) == '@'):
-                        uname = str(text[2][1:])
-                    searchuid = dbhandler.getuid(uname)
-                    print(searchuid[0])
-                    try:
-                        tm = dbhandler.getmemberteam(searchuid[0])
-                        print(tm)
-                    except TypeError:
-                        pass
+                if len(text) > 2:
+                    if text[2].isdigit():
+                        team = Tm(str(text[2]), None)
+                    else:
+                        if(str(text[2][0]) == '@'):
+                            uname = str(text[2][1:])
+                        searchuid = dbhandler.getuid(uname)
+                        try:
+                            tm = dbhandler.getmemberteam(searchuid[0])
+                        except TypeError:
+                            pass
             if(lookupmethod == 'get'):
                 print(tm)
                 try:
@@ -50,19 +48,28 @@ class Team(PluginBase):
                 else:
                     self.bot.sendMessage(msg['chat']['id'], 'Not a valid team.')
             elif(lookupmethod == 'list'):
-                txt = "Members of %s in this chat: \n"%(text[2])
-                members = dbhandler.getmembersfrom(text[2])
-                for member in members:
-                    try:
-                        mem = self.bot.getChatMember(str(msg['chat']['id']), str(member[0]))
-                    except:
-                        mem = 'Nope'
-                    if mem != "Nope":
-                        memb = mem['user']['first_name']
-                        if 'last_name' in mem['user']:
-                             memb = memb + ' ' + mem['user']['last_name']
-                        txt = txt +memb + '\n'
-                self.bot.sendMessage(msg['chat']['id'], txt)
+                if len(text) == 2:
+                    txt = 'All teams in this chat:\n\n'
+                    teams = dbhandler.getdistinctteams()
+                    teams = [int(x[0]) for x in teams]
+                    teams.sort()
+                    for team in teams:
+                        txt += str(team) + '\n'
+                    self.bot.sendMessage(msg['chat']['id'], txt)
+                else:
+                    txt = "Members of %s in this chat: \n"%(text[2])
+                    members = dbhandler.getmembersfrom(text[2])
+                    for member in members:
+                        try:
+                            mem = self.bot.getChatMember(str(msg['chat']['id']), str(member[0]))
+                        except:
+                            mem = 'Nope'
+                        if mem != "Nope":
+                            memb = mem['user']['first_name']
+                            if 'last_name' in mem['user']:
+                                 memb = memb + ' ' + mem['user']['last_name']
+                            txt = txt +memb + '\n'
+                    self.bot.sendMessage(msg['chat']['id'], txt)
             else:
                 self.bot.sendMessage(msg['chat']['id'], "Correct syntax:\n/team set|get|list XXXX")
         else:
