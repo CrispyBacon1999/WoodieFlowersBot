@@ -24,3 +24,6 @@ imgur_id = 'b1996860de1b7ab'
 imgur_secret = '7d688a10cf8b00a091583e3f5c6b2b811d305e2e'
 
 rules = 'The rules for this chat can be found at tinyurl.com/frc-rules'
+about = '''This is a bot created for the telegram group @FRCGlobal. It has commands that are used to access [The Blue Alliance](https://thebluealliance.com) so users can quickly share information with others. The bot can be accessed in a private message [here](https://t.me/FRCGlobalAdminBot)
+
+[Github](https://github.com/CrispyBacon1999/WoodieFlowersBot)'''

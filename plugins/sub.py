@@ -17,6 +17,7 @@ class Sub(PluginBase):
                 txt = re.sub(regex, replace, msg['reply_to_message']['text'])
                 print(txt)
                 self.bot.sendMessage(msg['chat']['id'], '*FTFY*\n\n%s' % txt, parse_mode="Markdown")
-            self.bot.sendMessage(msg['chat']['id'], 'Reply to a message first!', parse_mode='Markdown')
+            else:
+                self.bot.sendMessage(msg['chat']['id'], 'Reply to a message first!', parse_mode='Markdown')
         else:
             self.bot.sendMessage(msg['chat']['id'], 'Use the syntax /sub _regex substitution_', parse_mode='Markdown')
