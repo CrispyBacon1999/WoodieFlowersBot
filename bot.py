@@ -1,7 +1,7 @@
 import telepot
 from telepot.namedtuple import InputTextMessageContent as ITMC
 import time
-from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request
+from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request,best,sub,rules
 from theblueallianceapi import Team as tm
 import theblueallianceapi
 import sys
@@ -117,7 +117,9 @@ plugins.append(rank.Rank(bot))
 plugins.append(warn.Warn(bot))
 plugins.append(kick.Kick(bot))
 plugins.append(request.Request(bot))
-
+plugins.append(best.Best(bot))
+plugins.append(sub.Sub(bot))
+plugins.append(rules.Rules(bot))
 
 
 print(col.HEADER + 'Plugins Initialized. Waiting for messages...' + col.ENDC)
