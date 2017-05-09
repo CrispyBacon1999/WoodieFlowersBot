@@ -17,7 +17,8 @@ team_help_mess = '*Help for team commands*\n/team set|list|get XXXX'
 warn_help_mess = 'Gives the user a warning. After %d warnings are given, the user will be kicked, and after %d, they will be banned.' % (maxwarns, banwarns)
 request_help_mess = '`/request message`\n\n_Makes a new feature request. I will automatically log it so that your feature will be taken into account. Be as specific as you want or message_ @Floodie&#95;Wowers_!_'
 minitaur_best_help_mess = "Literally returns /1369best. That's it"
-bot_username = '@FRCGlobalAdminBot'
+halp_blank = 'To recieve help on a command, send /halp command'
+bot_username = '@WoodieFlowersBot'
 admin_uid = 209854694
 
 imgur_id = 'b1996860de1b7ab'

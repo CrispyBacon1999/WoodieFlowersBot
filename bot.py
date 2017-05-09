@@ -1,7 +1,7 @@
 import telepot
 from telepot.namedtuple import InputTextMessageContent as ITMC
 import time
-from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request,best,sub,rules,about
+from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request,best,sub,rules,about,bind,say
 from theblueallianceapi import Team as tm
 import theblueallianceapi
 import sys
@@ -31,33 +31,26 @@ def handle(msg):
             print(col.OKBLUE + chat['title'] + col.HEADER + ' - ' + col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
         else:
             print(col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + textfull + col.ENDC)
-        if textfull == '/halp' or textfull == '/halp@FRCGlobalAdminBot':
-            bot.sendMessage(chat, '```Try using /halp <plugin> instead!```', parse_mode = 'Markdown')
+        if textfull == '/halp' or textfull == '/halp' + config.bot_username:
+            bot.sendMessage(chatid, config.halp_blank, parse_mode = 'Markdown')
     elif content_type[0] == 'sticker':
         valid_sticker = False
-        try:
-            sticker_team = list(stickers.keys())[list(stickers.values()).index(msg['sticker']['file_id'])]
-            teamtext = '/tba team info %s'%(sticker_team)
+        if(dbhandler.isbind(msg['sticker']['file_id'])):
+            command = dbhandler.getbind(msg['sticker']['file_id'])[0]
+            print(command)
+            if('reply_to_message' in msg):
+                reply = msg['reply_to_message']
+            else:
+                reply = None
             msg = {
                 'from': msg['from'],
                 'chat': msg['chat'],
                 'message_id': msg['message_id'],
                 'date': msg['date'],
-                'text': teamtext
+                'text': command,
+                'reply_to_message': reply
             }
             valid_sticker = True
-        except ValueError:
-            msg = {
-            'from': msg['from'],
-            'chat': msg['chat'],
-            'message_id': msg['message_id'],
-            'date': msg['date'],
-            'text': 'None'
-        }
-        if chat['type'] == 'supergroup':
-            print(col.OKBLUE + chat['title'] + col.HEADER + ' - ' + col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + 'STICKER - ' + msg['text'] + col.ENDC)
-        else:
-            print(col.OKGREEN + msg['from']['first_name'] + ' (%s)' % str(msg['from']['id']) + col.HEADER +' : ' + col.WARNING + 'STICKER - ' + msg['text']  + col.ENDC)
     if content_type[0] == 'text' or valid_sticker:
         for plugin in plugins:
             plugin.test_command(user_level,msg)
@@ -121,6 +114,8 @@ plugins.append(best.Best(bot))
 plugins.append(sub.Sub(bot))
 plugins.append(rules.Rules(bot))
 plugins.append(about.About(bot))
+plugins.append(bind.Bind(bot))
+plugins.append(say.Say(bot))
 
 print(col.HEADER + 'Plugins Initialized. Waiting for messages...' + col.ENDC)
 
@@ -136,7 +131,8 @@ stickers = {
     "2056": "CAADAQADWQAD5iCCDDo9gVNDaj1mAg",
     "33": "CAADAQADWgAD5iCCDPfEQGCbgkgRAg",
     "2522": "CAADAQADWwAD5iCCDAEdRMDDkSJ-Ag",
-    "2337": "CAADAQADXAAD5iCCDAhXdj4tPRTrAg"
+    "2337": "CAADAQADXAAD5iCCDAhXdj4tPRTrAg",
+    "1369":"CAADAQAD4gADp5C2B4PeujbInDYqAg"
     
 }
 

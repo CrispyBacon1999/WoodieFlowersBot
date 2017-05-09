@@ -132,3 +132,30 @@ def addrequest(uid, request):
     c = con.cursor()
     c.execute('INSERT INTO requests VALUES (?, ?)', (uid, str(request)))
     con.commit()
+    
+def addbind(sticker, command):
+    con = sqlite3.connect(dblink)
+    c = con.cursor()
+    c.execute('SELECT sticker FROM stickerbinds WHERE sticker = ?', (sticker,))
+    if(c.fetchone()):
+        print('Sticker already bound')
+        return False
+    else:
+        print('Inserting Sticker')
+        c.execute('INSERT INTO stickerbinds VALUES (?, ?)', (sticker, command))
+        con.commit()
+        return True
+def isbind(sticker):
+    con = sqlite3.connect(dblink)
+    c = con.cursor()
+    c.execute('SELECT sticker FROM stickerbinds WHERE sticker = ?', (sticker,))
+    if(c.fetchone()):
+        return True
+    else:
+        return False
+
+def getbind(sticker):
+    con = sqlite3.connect(dblink)
+    c = con.cursor()
+    c.execute('SELECT command FROM stickerbinds WHERE sticker = ?', (sticker,))
+    return c.fetchone()
