@@ -1,7 +1,7 @@
 import telepot
 from telepot.namedtuple import InputTextMessageContent as ITMC
 import time
-from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request,best,sub,rules,about,bind,say
+from plugins import team,tba,meetup,scouting,configure,rank,warn,kick,request,best,sub,rules,about,bind,say,betatba
 from theblueallianceapi import Team as tm
 import theblueallianceapi
 import sys
@@ -9,6 +9,7 @@ from utils import bcolors as col
 import dbhandler
 import config
 import json
+import re
 # Handle Messages
 def handle(msg):
     content_type = telepot.glance(msg, long=True)
@@ -56,7 +57,25 @@ def handle(msg):
             plugin.test_command(user_level,msg)
 # Handle Inline Buttons
 def on_callback_query(msg):
-    pass
+    match = re.search('^[A-z]*_', msg['data'])
+    if match:
+        for plugin in plugins:
+            if isinstance(plugin, betatba.Beta):
+                message = {
+                    'text': msg['data'], 
+                    'entities':[
+                        {'type':'callback'}], 
+                    'chat':{
+                        'id': msg['message']['chat']['id']
+                    }, 
+                    'message_id': msg['message']['message_id'],
+                    'from':{
+                        'first_name': msg['from']['first_name'],
+                        'id': msg['from']['id']
+                    }
+                }
+                plugin.execute(message)
+        
 # Handle New Chat Members
 def new_chat_member(msg):
     pass
@@ -116,6 +135,7 @@ plugins.append(rules.Rules(bot))
 plugins.append(about.About(bot))
 plugins.append(bind.Bind(bot))
 plugins.append(say.Say(bot))
+plugins.append(betatba.Beta(bot))
 
 print(col.HEADER + 'Plugins Initialized. Waiting for messages...' + col.ENDC)
 
