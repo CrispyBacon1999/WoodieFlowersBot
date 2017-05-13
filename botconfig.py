@@ -1,6 +1,6 @@
 from plugins import about, best, betatba, bind, configure, kick, meetup, rank, request, rules, say, scouting, sub, tba, team, warn
 
-TOKEN = '168861177:AAEZgr-aNNIoZcVpgQkJS0ulF-UElMAeOjE'
+TOKEN = ''
 VERSION = 'v3.0'
 plugins = []
 
